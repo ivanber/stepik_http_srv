@@ -1,4 +1,4 @@
-project(stepik_http_srv)
+project(final)
 
 cmake_minimum_required(VERSION 2.8)
 
