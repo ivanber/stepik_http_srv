@@ -22,7 +22,7 @@ bool HTTPRequestParser::parse(char const *aBuf, size_t const aSize,
 
         std::getline(lineStream, aDocument, ' ');
 
-        log << "Parsed document " << aDocument << std::endl;
+        *logger.get() << "Parsed document " << aDocument << std::endl;
 
         break;
       }

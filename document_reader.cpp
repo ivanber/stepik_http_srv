@@ -16,7 +16,7 @@ bool DocumentReader::read(std::string const &aDocument, std::ostream &aStream) {
   bool success = false;
 
   if ( isRegularFile( aDocument.c_str() ) ) {
-    log << aDocument << " is regular file" << std::endl;
+    *logger.get() << aDocument << " is regular file" << std::endl;
 
     std::ifstream ifl(aDocument, std::ios_base::in | std::ios_base::binary);
     if (ifl) {
@@ -26,7 +26,7 @@ bool DocumentReader::read(std::string const &aDocument, std::ostream &aStream) {
 
       int const bufSize = seekPos - ifl.tellg();
       if (bufSize >= 0) {
-        log << aDocument << " size = " << bufSize << std::endl;
+        *logger.get() << aDocument << " size = " << bufSize << std::endl;
 
         success = true;
 

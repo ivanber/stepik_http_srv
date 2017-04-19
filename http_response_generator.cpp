@@ -34,6 +34,6 @@ void HTTPResponseGenerator::generate(std::string const &aDocumentRoot,
 
   aStream << headersStream.str() << documentStream.str();
 
-  log << "Response Headers:" << std::endl << headersStream.str() << std::endl;
+  *logger.get() << "Response Headers:" << std::endl << headersStream.str() << std::endl;
 }
 //------------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 #include "app_cfg_reader.h"
 #include <iostream>
+#include "log.h"
 #include "tcp_connection.h"
 #include "tcp_server.h"
 //------------------------------------------------------------------------------
@@ -17,12 +18,20 @@ int main(int argc, char *argv[]) {
 #endif
     signal(SIGINT, intHandler);
 
+    logger.reset( new std::ofstream("final.log") );
+
     AppCfg cfg;
     AppCfgReader::read(argc, argv, cfg);
 
+    auto const srvCfg = cfg.tcpServerCfg();
+
+    ( *logger.get() ) << "host = " << srvCfg.host()
+      << ", port = " << srvCfg.port()
+      << ", rootDir = " << cfg.rootDir() << std::endl;
+
     TCPConnection::documentRoot = cfg.rootDir();
 
-    TCPServer srv( service, cfg.tcpServerCfg() );
+    TCPServer srv(service, srvCfg);
 
     std::cout << "Run server" << std::endl;
 
