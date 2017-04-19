@@ -6,19 +6,21 @@ bool DocumentReader::read(std::string const &aDocument, std::ostream &aStream) {
 
   std::ifstream ifl(aDocument, std::ios_base::in | std::ios_base::binary);
   if (ifl) {
-    success = true;
-
     ifl.seekg(0, std::ios_base::end);
     auto const seekPos = ifl.tellg();
     ifl.seekg(0, std::ios_base::beg);
 
     int const bufSize = seekPos - ifl.tellg();
-    auto buf = new char[bufSize];
-    ifl.read(buf, bufSize);
+    if (bufSize >= 0) {
+      success = true;
 
-    aStream.write(buf, bufSize);
+      auto buf = new char[bufSize];
+      ifl.read(buf, bufSize);
 
-    delete buf;
+      aStream.write(buf, bufSize);
+
+      delete buf;
+    }
   }
 
   return success;

@@ -12,7 +12,7 @@ void intHandler(int const aSignal) {
 }
 //------------------------------------------------------------------------------
 int main(int argc, char *argv[]) {
-  if (fork() == 0) {
+   if (fork() == 0) {
     signal(SIGINT, intHandler);
 
     AppCfg cfg;
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     service.run();
 
     std::cout << "Server stopped" << std::endl;
-  }
+   }
 
   return 0;
 }
