@@ -1,4 +1,5 @@
 #include "http_request_parser.h"
+#include "log.h"
 //------------------------------------------------------------------------------
 bool HTTPRequestParser::parse(char const *aBuf, size_t const aSize,
   std::string &aDocument)
@@ -20,6 +21,8 @@ bool HTTPRequestParser::parse(char const *aBuf, size_t const aSize,
         std::getline(lineStream, skip, ' ');
 
         std::getline(lineStream, aDocument, ' ');
+
+        log << "Parsed document " << aDocument << std::endl;
 
         break;
       }

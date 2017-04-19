@@ -1,5 +1,6 @@
 #include "document_reader.h"
 #include <fstream>
+#include "log.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -15,6 +16,8 @@ bool DocumentReader::read(std::string const &aDocument, std::ostream &aStream) {
   bool success = false;
 
   if ( isRegularFile( aDocument.c_str() ) ) {
+    log << aDocument << " is regular file" << std::endl;
+
     std::ifstream ifl(aDocument, std::ios_base::in | std::ios_base::binary);
     if (ifl) {
       ifl.seekg(0, std::ios_base::end);
@@ -23,6 +26,8 @@ bool DocumentReader::read(std::string const &aDocument, std::ostream &aStream) {
 
       int const bufSize = seekPos - ifl.tellg();
       if (bufSize >= 0) {
+        log << aDocument << " size = " << bufSize << std::endl;
+
         success = true;
 
         auto buf = new char[bufSize];
