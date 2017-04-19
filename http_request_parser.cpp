@@ -9,7 +9,9 @@ bool HTTPRequestParser::parse(char const *aBuf, size_t const aSize,
   fStream.write(aBuf, aSize);
 
   auto const requestStr = fStream.str();
-  if ( std::string::npos != requestStr.find("\r\n\r\n") ) {
+  if ( std::string::npos != requestStr.find("\r\n\r\n")
+    || std::string::npos != requestStr.find("\n\n") )
+  {
     std::string line;
     while ( std::getline(fStream, line) ) {
       if (line.compare("GET ") >= 0)  {
