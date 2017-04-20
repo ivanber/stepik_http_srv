@@ -3,13 +3,20 @@
 #include "log.h"
 #include "tcp_connection.h"
 #include "tcp_server.h"
+#include <thread>
 //------------------------------------------------------------------------------
-boost::asio::io_service service;
+static boost::asio::io_service service;
 //------------------------------------------------------------------------------
 void intHandler(int const aSignal) {
   if (SIGINT == aSignal) {
     service.stop();
   }
+}
+//------------------------------------------------------------------------------
+void doWorker(boost::asio::io_service &aService) {
+  std::cout << "Run io_service" << std::endl;
+  aService.run();
+  std::cout << "Stop io_service" << std::endl;
 }
 //------------------------------------------------------------------------------
 int main(int argc, char *argv[]) {
@@ -29,14 +36,14 @@ int main(int argc, char *argv[]) {
       << ", port = " << srvCfg.port()
       << ", rootDir = " << cfg.rootDir() << std::endl;
 
-    TCPConnection::documentRoot = cfg.rootDir();
+    TCPConnection::documentRoot = cfg.rootDir();    
 
     TCPServer srv(service, srvCfg);
 
+    std::thread worker( doWorker, std::ref(service) );
+
     std::cout << "Run server" << std::endl;
-
-    service.run();
-
+    worker.join();
     std::cout << "Server stopped" << std::endl;
 #ifndef CONSOLE
   }

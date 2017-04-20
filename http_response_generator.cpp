@@ -23,7 +23,7 @@ void HTTPResponseGenerator::generate(std::string const &aDocumentRoot,
 
     mimeType = "text/plain";
 
-    // documentStream << "Document " << aDocument << " is not found." << std::endl;
+    documentStream << "Document " << aDocument << " is not found." << std::endl;
   }
 
   auto const contentLength = documentStream.tellp() - documentStream.tellg();
